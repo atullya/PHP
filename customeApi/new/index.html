@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      fetch("http://localhost/customeapi/new/index.php", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({}), // Sending an empty JSON object
+      })
+        .then((response) => response.json())
+        .then((dat) => {
+          console.log(dat);
+
+          dat.forEach((element) => {
+            let pu = document.createElement("p");
+            pu.setAttribute("data-email", element.email);
+            pu.setAttribute("data-phone", element.phone);
+
+            pu.innerHTML = `${element.name}<br>`;
+            document.body.appendChild(pu);
+
+            pu.addEventListener("click", function () {
+              let para = document.createElement("p");
+              para.innerHTML = `Email: ${pu.getAttribute(
+                "data-email"
+              )}<br>Phone: ${pu.getAttribute("data-phone")}`;
+              document.body.appendChild(para);
+            });
+          });
+        })
+        .catch((error) => {
+          console.error("Error fetching data:", error);
+        });
+    </script>
+  </body>
+</html>
